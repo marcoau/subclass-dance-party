@@ -1,12 +1,11 @@
-var BlinkyDancer = function(top, left, timeBetweenSteps){
-  /*
+var MovingDancer = function(top, left, timeBetweenSteps){
   this.$node = $('<span class="dancer"></span>');
-  this._timeBetweenSteps = timeBetweenSteps;
+  this._top = top;
+  this._left = left;
+  //want it to move quick
+  this._timeBetweenSteps = 50;
   this.step();
   this.setPosition(top, left);
-  */
-
-  Dancer.call(this, top, left, timeBetweenSteps);
 };
 
 //another way of doing it:
@@ -17,20 +16,20 @@ var inherit = function(proto) {
   return new F;
 }
 */
-//BlinkyDancer.prototype = inherit(Dancer.prototype);
+//MovingDancer.prototype = inherit(Dancer.prototype);
 
-BlinkyDancer.prototype = Object.create(Dancer.prototype);
+MovingDancer.prototype = Object.create(Dancer.prototype);
 
 // we plan to overwrite the step function below, but we still want the superclass step behavior to work,
 // so we must keep a copy of the old version of this function
 
-BlinkyDancer.prototype._oldstep = BlinkyDancer.prototype.step;
+MovingDancer.prototype._oldstep = MovingDancer.prototype.step;
 
-BlinkyDancer.prototype.step = function(){
+MovingDancer.prototype.step = function(){
   // call the old version of step at the beginning of any call to this new version of step
   this._oldstep();
   // toggle() is a jQuery method to show/hide the <span> tag.
   // See http://api.jquery.com/category/effects/ for this and
   // other effects you can use on a jQuery-wrapped html tag.
-  this.$node.toggle();
+  this.setPosition(this._top + (Math.random() * 50 - 5), this._left + (Math.random() * 50 - 5));
 };
